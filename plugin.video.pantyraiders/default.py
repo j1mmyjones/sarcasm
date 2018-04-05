@@ -29,7 +29,7 @@ def Main_Menu():
 	process.Menu('PornDig','',1000,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
 	process.Menu('Porn 300','',1007,'https://www.porn300.com/android-icon-192x192.png',FANART,'','')
 	# process.Menu('PervClips','',1014,'',FANART,'','')
-	process.Menu('Watch My GF','',1019,'',FANART,'','')
+	process.Menu('Watch My GF','',1019,'https://www.watchmygf.me/images/logo.png',FANART,'','')
 
 
 	process.setView('movies', 'INFO')
@@ -266,6 +266,8 @@ elif mode == 1018: from lib.sites import pervclips;pervclips.pervclips_search()
 elif mode == 1019: from lib.sites import watchmygf;watchmygf.watchmygf_menu()
 elif mode == 1020: from lib.sites import watchmygf;watchmygf.watchmygf_vids(url)
 elif mode == 1021: from lib.sites import watchmygf;watchmygf.watchmygf_playlink(url)
+elif mode == 1022: from lib.sites import watchmygf;watchmygf.watchmygf_search()
+elif mode == 1023: from lib.sites import watchmygf;watchmygf.watchmygf_cats(url)
 
 
 

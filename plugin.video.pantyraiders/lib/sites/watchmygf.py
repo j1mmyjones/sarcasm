@@ -11,7 +11,7 @@ List = []
 
 
 logo = 'https://www.watchmygf.me/images/logo.png'
-base= 'https://www.watchmygf.me/'
+base= 'https://www.watchmygf.me'
 
 #1019
 def watchmygf_menu():
@@ -19,6 +19,8 @@ def watchmygf_menu():
 	process.Menu('Newest','https://www.watchmygf.me/new/',1020,logo,FANART,'','')
 	process.Menu('Top Rated','https://www.watchmygf.me/rated/',1020,logo,FANART,'','')
 	process.Menu('Most Viewed','https://www.watchmygf.me/popular/',1020,logo,FANART,'','')
+	# process.Menu('Categories','https://www.watchmygf.me/categories/',1023,logo,FANART,'','')
+	process.Menu('Search','',1022,logo,FANART,'','')
 
 #1020
 def watchmygf_vids(url):
@@ -28,6 +30,10 @@ def watchmygf_vids(url):
 		time = time.strip()
 		name = '([COLOR dodgerblue]%s[/COLOR]) %s'%(time,name)
 		process.PLAY(name,url,1021,img,FANART,'','')
+	next_page= re.compile('class="current"><a href="".+?href="(.+?)" title',re.DOTALL).findall(html)
+	for page in next_page:
+		page = base+page
+		process.Menu('Next Page',page,1020,logo,FANART,'','')		
 
 #1021
 def watchmygf_playlink(url):
@@ -36,9 +42,20 @@ def watchmygf_playlink(url):
 	for link in match:
 		xbmc.Player().play(link)
 
+#1022
+def watchmygf_search():
+	Dialog = xbmcgui.Dialog()
+	Search_title = Dialog.input('Search', type=xbmcgui.INPUT_ALPHANUM)
+	Search_name = Search_title.lower()
+	url = 'https://www.watchmygf.me/search/'+Search_name.replace(' ','+')
+	watchmygf_vids(url)
 
-
-
+#1023
+def watchmygf_cats(url):
+	html = process.OPEN_URL(url)
+	match = re.compile('class="item-link".+?href="(.+?)".+?img.+?class="thumb".+?src="(.+?)".+?alt="(.+?)"',re.DOTALL).findall(html)
+	for url,img,name in match:
+		process.Menu(img,url,1020,img,FANART,'','')
 
 
 
