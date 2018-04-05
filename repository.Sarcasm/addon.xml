@@ -4,9 +4,9 @@
             <import addon="xbmc.addon" version="12.0.0"/>
         </requires>
         <extension point="xbmc.addon.repository" name="Sarcasm">
-            <info compressed="false">https://raw.githubusercontent.com/j1mmyjones/sarcasm/_zips/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/j1mmyjones/sarcasm/_zips/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/j1mmyjones/sarcasm/_zips/</datadir>
+            <info compressed="false">https://raw.githubusercontent.com/j1mmyjones/sarcasm/master/_zips/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/j1mmyjones/sarcasm/master/_zips/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/j1mmyjones/sarcasm/master/_zips/</datadir>
             <hashes>false</hashes>
         </extension>
         <extension point="xbmc.addon.metadata">
