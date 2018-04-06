@@ -9,9 +9,9 @@ import xbmcgui
 import xbmcplugin
 import re
 
-ADDON_PATH = xbmc.translatePath('special://home/addons/plugin.video.pantyraiders/')
+ADDON_PATH = xbmc.translatePath('special://home/addons/plugin.video.vex')
 USERDATA_PATH = xbmc.translatePath('special://home/userdata/addon_data')
-ADDON_DATA = USERDATA_PATH + '/plugin.video.pantyraiders/'
+ADDON_DATA = USERDATA_PATH + '/plugin.video.vex/'
 if not os.path.exists(ADDON_DATA):
     os.makedirs(ADDON_DATA)
 ICON = ADDON_PATH + 'icon.png'
