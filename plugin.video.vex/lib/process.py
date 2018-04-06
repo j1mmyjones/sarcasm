@@ -17,7 +17,7 @@ if not os.path.exists(ADDON_DATA):
 ICON = ADDON_PATH + 'icon.png'
 FANART = ADDON_PATH + 'fanart.jpg'
 Dialog = xbmcgui.Dialog()
-addon_id = 'plugin.video.pantyraiders'
+addon_id = 'plugin.video.vex'
 ADDON = xbmcaddon.Addon(id=addon_id)
 PATH = 'Quantum'
 VERSION = '0.0.1'
@@ -31,7 +31,7 @@ addon_handle = int(sys.argv[1])
 List = []
 temp_file = ADDON_PATH + 'Temp.txt'
 debug = ADDON.getSetting('debug')
-watched_list = xbmc.translatePath('special://home/userdata/addon_data/plugin.video.pantyraiders/watched')
+watched_list = xbmc.translatePath('special://home/userdata/addon_data/plugin.video.vex/watched')
 
 def nanMenu(title, show_year, season, episode,mode, allinfo={}):
     u = sys.argv[0] + "?title=" + urllib.quote_plus(title) + "&show_year=" + urllib.quote_plus(
