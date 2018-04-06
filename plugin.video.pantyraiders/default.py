@@ -28,7 +28,7 @@ def Main_Menu():
 	process.Menu('PlusOne8','',118,'https://i.imgur.com/NfUL3zz.png',FANART,'','')
 	process.Menu('PornDig','',1000,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
 	process.Menu('Porn 300','',1007,'https://www.porn300.com/android-icon-192x192.png',FANART,'','')
-	# process.Menu('PervClips','',1014,'',FANART,'','')
+	process.Menu('PervClips','',1014,'https://pervclips.com/tube/images/favicon-152.png',FANART,'','')
 	process.Menu('Watch My GF','',1019,'https://www.watchmygf.me/images/logo.png',FANART,'','')
 
 
