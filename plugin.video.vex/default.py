@@ -27,15 +27,17 @@ def vex_vids(url):
     html = process.OPEN_URL(url)
     match = re.compile('id="mt-.+?href="(.+?)".+?img src="(.+?)" alt="(.+?)".+?class="ttx">(.+?)<div.+?class="calidad2">(.+?)</span>',re.DOTALL).findall(html)
     for url,img,name,info,rez in match:
+    	title = name
         name = name.replace('&#8217;','\'')
         name = '%s [COLOR red](%s)[/COLOR]'%(name,rez)
-        process.Menu(name,url,101,img,FANART,info,info)
+        title = name
+        process.Menu(name,url,101,img,FANART,info,title)
     next_page= re.compile('class=\'current\'.+?href=\'(.+?)\'.+?</li>',re.DOTALL).findall(html)
     for page in next_page:
         process.Menu('Next Page',page,100,ICON,FANART,'','')    
 
 #101
-def vex_playlinks(url):
+def vex_playlinks(url,extra):
     html = process.OPEN_URL(url)
     match = re.compile('class="entry-content">.+?<iframe src="(.+?)".+?</iframe>',re.DOTALL).findall(html)
     for link in match:
@@ -51,7 +53,7 @@ def vex_playlinks(url):
                         links = links.replace('\\','')
                         host = links.split('//')[1].replace('www.','')
                         hostname = host.split('/')[0].split('.')[0].title()
-                        process.PLAY(hostname,links,19,'','','','')
+                        process.PLAY(hostname,links,19,'','','',extra)
 
 #102
 def vex_cats(url):
@@ -119,11 +121,11 @@ def Play(name,url,mode,iconimage,fanart,description,extra,showcontext=True,allin
         return ok
         xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
-def Big_Resolve(name,url):
+def Big_Resolve(name,url,extra):
     import resolveurl
     try:
         resolved_url = resolveurl.resolve(url)
-        xbmc.Player().play(resolved_url, xbmcgui.ListItem(name))
+        xbmc.Player().play(resolved_url, xbmcgui.ListItem(extra))
     except:
         xbmc.Player().play(url, xbmcgui.ListItem(name))
     xbmcplugin.endOfDirectory(int(sys.argv[1]))		
@@ -292,10 +294,10 @@ elif mode==12:
         pass
     rmFavorite(name)
 elif mode == 14 : queueItem()
-elif mode == 19 : Big_Resolve(name,url)	
+elif mode == 19 : Big_Resolve(name,url,extra)	
 elif mode == 20: resolve(name,url)
 elif mode == 100: vex_vids(url)
-elif mode == 101: vex_playlinks(url)
+elif mode == 101: vex_playlinks(url,extra)
 elif mode == 102: vex_cats(url)
 
 

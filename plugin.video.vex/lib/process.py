@@ -369,13 +369,13 @@ def setView(content, viewType):
 def resolve_playercore(url):
 	Big_Resolve('',url)
 
-def Big_Resolve(name,url):
+def Big_Resolve(name,url,extra):
 	import urlresolver
 	try:
 		resolved_url = urlresolver.resolve(url)
-		xbmc.Player().play(resolved_url, xbmcgui.ListItem(name))
+		xbmc.Player().play(resolved_url, xbmcgui.ListItem(extra))
 	except:
-		xbmc.Player().play(url, xbmcgui.ListItem(name))
+		xbmc.Player().play(url, xbmcgui.ListItem(extra))
 	xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
 def Big_resolve2(name,url):
