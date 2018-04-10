@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.mst3k" name="MST3K" version="1.0" provider-name="Crow & Tom Servo">
+<addon id="plugin.video.mst3k" name="MST3K" version="1.0" provider-name="Crow and Tom Servo">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
 	<import addon="script.module.addon.common" />
