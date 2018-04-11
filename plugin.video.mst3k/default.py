@@ -20,7 +20,7 @@ genre_url = start_url+'/episodes?sort=genre'
 def Main_Menu():
 	Menu('Seasons',start_url+'/episodes?sort=episodes',100,ICON,FANART,'','')
 	Menu('Genre',start_url+'/episodes?sort=genre',105,ICON,FANART,'','')
-	Menu('Luaghs',start_url+'/episodes?sort=laughs',104,ICON,FANART,'','')
+	Menu('Laughs',start_url+'/episodes?sort=laughs',104,ICON,FANART,'','')
 	# Menu('Search','',2,ICON,FANART,'','')
 
 
@@ -55,7 +55,7 @@ def episodes(name):
 	            elif len(ep_number) == 4:
 	                season_no = ep_number[0:2]
 	            if season_name == season_no:
-
+	            	name = name.replace('&#39;','\'')
 	            	process.Menu(name,url,103,ICON,FANART,'','')
 #103
 def play_link(url):
