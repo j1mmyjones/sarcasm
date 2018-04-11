@@ -56,6 +56,25 @@
   </extension>
 </addon>
 
+<addon id="plugin.video.newmoviesonline" name="NewMoviesOnline" version="0.0.1" provider-name=" Dixie Normous ">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+	<import addon="script.module.addon.common" />
+	<import addon="script.module.requests" />
+	<import addon="script.module.beautifulsoup4" />
+	<import addon="script.module.resolveurl"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+	<summary lang="en"></summary>
+	<description lang="en"></description>
+	<disclaimer lang="en"></disclaimer>
+	<platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.pantyraiders" name="Panty Raiders" version="1.4" provider-name="The Perverted">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
