@@ -1227,7 +1227,7 @@ def porndig_menu():
 	process.Menu('New Vids','https://www.porndig.com',1001,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
 	process.Menu('Studios','https://www.porndig.com/studios/',1003,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
 	process.Menu('Porn Starz','https://www.porndig.com/pornstars/',1005,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
-	process.Menu('Search','',1006,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
+	# process.Menu('Search','',1006,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
 
 
 #1004
@@ -1241,7 +1241,8 @@ def porndig_4k_menu():
 #1001
 def porndig_vids(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('data-post_id=".+?href="(.+?)" title="(.+?)".+?img title=.+?src="(.+?)".+?</i></span></div></a></div>',re.DOTALL).findall(html)
+	block = re.compile('class="js_entity_container js_content(.+?)class="load_more_text">',re.DOTALL).findall(html)
+	match = re.compile('_videos_.+?".+?href="(.+?)" title="(.+?)".+?img src="(.+?)".+?class="icon.+?</span></div></a></div>',re.DOTALL).findall(str(block))
 	for url,name,img in match:
 		url = 'https://www.porndig.com'+url
 		process.PLAY(name,url,1002,img,'','','')
