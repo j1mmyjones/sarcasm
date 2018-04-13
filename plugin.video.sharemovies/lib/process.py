@@ -9,15 +9,15 @@ import xbmcgui
 import xbmcplugin
 import re
 
-ADDON_PATH = xbmc.translatePath('special://home/addons/plugin.video.monline')
+ADDON_PATH = xbmc.translatePath('special://home/addons/plugin.video.sharemovies')
 USERDATA_PATH = xbmc.translatePath('special://home/userdata/addon_data')
-ADDON_DATA = USERDATA_PATH + '/plugin.video.monline/'
+ADDON_DATA = USERDATA_PATH + '/plugin.video.sharemovies/'
 if not os.path.exists(ADDON_DATA):
     os.makedirs(ADDON_DATA)
 ICON = ADDON_PATH + 'icon.png'
 FANART = ADDON_PATH + 'fanart.jpg'
 Dialog = xbmcgui.Dialog()
-addon_id = 'plugin.video.monline'
+addon_id = 'plugin.video.sharemovies'
 ADDON = xbmcaddon.Addon(id=addon_id)
 PATH = 'Quantum'
 VERSION = '0.0.1'
@@ -31,7 +31,7 @@ addon_handle = int(sys.argv[1])
 List = []
 temp_file = ADDON_PATH + 'Temp.txt'
 debug = ADDON.getSetting('debug')
-watched_list = xbmc.translatePath('special://home/userdata/addon_data/plugin.video.monline/watched')
+watched_list = xbmc.translatePath('special://home/userdata/addon_data/plugin.video.sharemovies/watched')
 
 def nanMenu(title, show_year, season, episode,mode, allinfo={}):
     u = sys.argv[0] + "?title=" + urllib.quote_plus(title) + "&show_year=" + urllib.quote_plus(

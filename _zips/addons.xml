@@ -99,7 +99,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.sharemovies" name="Sharemovies" version="0.0.1" provider-name="Kid Jones">
+<addon id="plugin.video.sharemovies" name="Sharemovies" version="0.0.2" provider-name="Kid Jones">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
 	<import addon="script.module.addon.common" />
