@@ -23,7 +23,7 @@ def porn_300_menu():
 #1008
 def porn300_playlinks(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('class="box-video">.+?source src="(.+?)".+?</video>.+?</div>',re.DOTALL).findall(html)
+	match = re.compile('id="video-player".+?poster=".+?source src="(.+?)".+?</video>',re.DOTALL).findall(html)
 	for link in match:
 		xbmc.Player().play(link)
 

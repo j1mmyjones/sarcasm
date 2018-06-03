@@ -59,7 +59,7 @@ def spank_tags_letter(letter,url):
 
 def spank_videos(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('<div class="thumb-info-wrapper">.+?<a href="(.+?)".+?data-original="(.+?)".+?alt="(.+?)"',re.DOTALL).findall(html)
+	match = re.compile('<li class="js-li-thumbs"><div class="video_thumb_wrapper">.+?href="(.+?)".data-original="(.+?)".+?alt="(.+?)"',re.DOTALL).findall(html)
 	for url,img,name in match:
 		img = 'http:'+img
 		url = 'http://www.spankwire.com'+url
@@ -73,7 +73,7 @@ def spank_videos(url):
 def spank_playlink(url):
 	sources = []
 	html = process.OPEN_URL(url)
-	match = re.compile("playerData.cdnPath(.+?) .+?= '(.+?)';").findall(html)
+	match = re.compile("playerData.cdnPath(.+?)  .+?= '(.+?)';").findall(html)
 	for quality,playlink in match:
 		sources.insert(0,{'quality': quality+'p', 'playlink': playlink})
 		if len(sources) == len(match):
@@ -522,7 +522,7 @@ def redtube_video(url):
 	match = re.compile('class="videoblock_list.+?href="(.+?)".+?alt="(.+?)".+?data-thumb_url = "(.+?)".+?class="duration">.+?</span>(.+?)</span>',re.DOTALL).findall(html)
 	for url,name,img,time in match:
 		time = time.strip()
-		# name = clean_name.clean_name(name)
+		name = clean_name.clean_name(name)
 		xbmc.log('************ LOG THIS '+repr(url),xbmc.LOGNOTICE)
 		name = '[COLOR dodgerblue]%s[/COLOR] %s'%(time,name)
 		url = 'http://www.redtube.com'+url
@@ -694,14 +694,13 @@ def hamster_cats_split(letter,url):
 				process.Menu(name,url,716,'http://www.logospike.com/wp-content/uploads/2016/05/Xhamster_Logo_03.png','','','')
 			
 def get_hamster_vid(url):
-	html = process.OPEN_URL(url)
-	match = re.compile('<div class="video"><a href="(.+?)".+?<img src=\'(.+?)\'.+?alt="(.+?)"/>.+?><b>(.+?)</b>(.+?)<div class="fr">(.+?)</div><div class="views-value">(.+?)</div></div></div>').findall(html)
-	for url,img,name,duration,hd_check,rating,views in match:
-		name = clean_name.clean_name(name)
+	html = requests.get(url).content
+	match = re.compile('class="thumb-list__item video-thumb".+?href="(.+?)".+?img class=".+?src="(.+?)".+?alt="(.+?)".+?container__duration">(.+?)</div>').findall(html)
+	for url,img,name,duration in match:
+		# xbmc.log('************ LOG THIS '+repr(url),xbmc.LOGNOTICE)
+		# name = clean_name.clean_name(name)
 		name = duration+' - '+name
-		if 'hSpriteHD' in hd_check:
-			name = '[COLORred]HD [/COLOR]'+name
-		process.PLAY(name,url,719,img,img,'Views : '+views+'\nRating : '+rating,'')
+		process.PLAY(name,url,719,img,img,'','')
 	next = re.compile('<link rel="next" href="(.+?)">').findall(html)
 	for item in next:
 		item = clean_name.clean_name(item)
@@ -1232,17 +1231,25 @@ def porndig_menu():
 
 #1004
 def porndig_4k_menu():
-	process.Menu('4k','https://www.porndig.com/channels/1172/uhd-4k',1001,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
-	process.Menu('Tiny4k','https://www.porndig.com/studios/427/tiny4k.html',1001,'https://static-push.porndig.com/media/default/studios/studio_427.jpg?ver=1470220574',FANART,'','')
-	process.Menu('Exotic4k','https://www.porndig.com/studios/430/exotic4k.html',1001,'https://static-push.porndig.com/media/default/studios/studio_430.jpg?ver=1470220621',FANART,'','')
-	process.Menu('Beauty4k','https://www.porndig.com/studios/281/beauty4k.html',1001,'https://static-push.porndig.com/media/default/studios/studio_281.jpg?ver=1444312373',FANART,'','')
+	process.Menu('4k','https://www.porndig.com/channels/1172/uhd-4k',2000,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
+	process.Menu('Tiny4k','https://www.porndig.com/studios/427/tiny4k.html',2000,'https://static-push.porndig.com/media/default/studios/studio_427.jpg?ver=1470220574',FANART,'','')
+	process.Menu('Exotic4k','https://www.porndig.com/studios/430/exotic4k.html',2000,'https://static-push.porndig.com/media/default/studios/studio_430.jpg?ver=1470220621',FANART,'','')
+	process.Menu('Beauty4k','https://www.porndig.com/studios/281/beauty4k.html',2000,'https://static-push.porndig.com/media/default/studios/studio_281.jpg?ver=1444312373',FANART,'','')
 
 
 #1001
 def porndig_vids(url):
-	html = process.OPEN_URL(url)
-	block = re.compile('class="js_entity_container js_content(.+?)class="load_more_text">',re.DOTALL).findall(html)
-	match = re.compile('_videos_.+?".+?href="(.+?)" title="(.+?)".+?img src="(.+?)".+?class="icon.+?</span></div></a></div>',re.DOTALL).findall(str(block))
+	html = requests.get(url).content
+	# block = re.compile('class="js_entity_container js_content(.+?)class="load_more_text">',re.DOTALL).findall(html)
+	match = re.compile('id=".+?_videos_.+?".+?href="(.+?)".+?img.+?src="(.+?)" alt="(.+?)".+?</div>',re.DOTALL).findall(html)
+	for url,img,name in match:
+		url = 'https://www.porndig.com'+url
+		process.PLAY(name,url,1002,img,'','','')
+
+def porndig_4k_vids(url):
+	html = requests.get(url).content
+	# block = re.compile('class="js_entity_container js_content(.+?)class="load_more_text">',re.DOTALL).findall(html)
+	match = re.compile('id=".+?_videos_.+?".+?class="video_item_thumbnail" href="(.+?)" title="(.+?)".+?<img.+?src="(.+?)"',re.DOTALL).findall(html)
 	for url,name,img in match:
 		url = 'https://www.porndig.com'+url
 		process.PLAY(name,url,1002,img,'','','')
@@ -1288,7 +1295,7 @@ def Porndig_Search():
 	Search_url = Search_url+Search_name
 	url = Search_url
 	html = process.OPEN_URL(url)
-	match = re.compile('id="search_posts.+?href="(.+?)" title="(.+?)".+?img src="(.+?)".+?</i></span></div>',re.DOTALL).findall(html)
+	match = re.compile('id="search_posts.+?href="(.+?)" title="(.+?)".+?img.+?src="(.+?)".+?</i></span></div>',re.DOTALL).findall(html)
 	for url,name,img in match:
 		url = 'https://www.porndig.com'+url
 		process.PLAY(name,url,1002,img,'','','') 
