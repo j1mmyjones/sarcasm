@@ -22,17 +22,15 @@ def Main_Menu():
 	# process.Menu('XTube','',753,'https://pbs.twimg.com/profile_images/732348322044903425/xTK0J4Cz.jpg',FANART,'','')
 	process.Menu('Eporner','',760,'https://i.imgur.com/cZ0oEj2.jpg',FANART,'','')
 	process.Menu('YouJizz','',771,'https://pbs.twimg.com/profile_images/3332003625/23c080fbec17cfb45ca3fd40ec06afe1.png',FANART,'','')
-	process.Menu('SpankWire','',772,'https://pbs.twimg.com/profile_images/665600820419952640/POpDwoka_400x400.png',FANART,'','')
+	# process.Menu('SpankWire','',772,'https://pbs.twimg.com/profile_images/665600820419952640/POpDwoka_400x400.png',FANART,'','')
 	process.Menu('Best Porn Collection','',100,'https://i.imgur.com/Rb3AZGF.png',FANART,'','')
 	process.Menu('XNXX','',107,'https://i.imgur.com/vQmrXsw.png',FANART,'','')
-	process.Menu('PlusOne8','',118,'https://i.imgur.com/NfUL3zz.png',FANART,'','')
+	# process.Menu('PlusOne8','',118,'https://i.imgur.com/NfUL3zz.png',FANART,'','')
 	process.Menu('PornDig','',1000,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
 	process.Menu('Porn 300','',1007,'https://www.porn300.com/android-icon-192x192.png',FANART,'','')
 	process.Menu('PervClips','',1014,'https://pervclips.com/tube/images/favicon-152.png',FANART,'','')
 	process.Menu('Watch My GF','',1019,'https://www.watchmygf.me/images/logo.png',FANART,'','')
-
-
-	process.setView('movies', 'INFO')
+	
  
 
 def get_params():

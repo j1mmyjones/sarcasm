@@ -9,6 +9,9 @@ List = []
 pornhub = 'http://pornhub.com'
 letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
+headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'}
+
+
 def Porn_Menu():
 	process.Menu('XVideos','',700,'https://pbs.twimg.com/profile_images/378800000578199366/cf160c1c86c13778a834bbade0c30e38.jpeg',FANART,'','')
 	process.Menu('PornHub','',708,'http://cdimage.debian.org/mirror/addons.superrepo.org/v7/addons/plugin.video.pornhub/icon.png',FANART,'','')
@@ -73,9 +76,9 @@ def spank_videos(url):
 def spank_playlink(url):
 	sources = []
 	html = process.OPEN_URL(url)
-	match = re.compile("playerData.cdnPath(.+?)  .+?= '(.+?)';").findall(html)
+	match = re.compile("playerData.cdnPath(.+?)         = '(.+?)';").findall(html)
 	for quality,playlink in match:
-		sources.insert(0,{'quality': quality+'p', 'playlink': playlink})
+		sources.insert(0,{'quality': quality+'p', 'playlink': 'https:'+playlink})
 		if len(sources) == len(match):
 			choice = Dialog.select('Select Playlink',[link["quality"] for link in sources])
 			if choice != -1:
@@ -107,11 +110,12 @@ def youjizz():
 def youjizz_videos(url):
 	next_list = []
 	html = process.OPEN_URL(url)
-	match = re.compile('class="frame".+?href="(.+?)".+?<img.+?data-original="(.+?)".+?<a href=.+?>(.+?)</a>.+?"time">(.+?)</span>',re.DOTALL).findall(html)
-	for url,img,name,length in match:
+	block = re.compile('div class="desktop-only">(.+?)<!-- Desktop Footer -->',re.DOTALL).findall(html)
+	match = re.compile('class="video-thumb desktop-only.+?href="(.+?)".+?src="(.+?)".+?class="video-title"><a.+?>(.+?)</a>',re.DOTALL).findall(str(block))
+	for url,img,name in match:
 		url = 'http://youjizz.com'+url
 		img = 'http:'+img
-		name = length+' - '+name
+		# name = length+' - '+name
 		name = clean_name.clean_name(name)
 		process.PLAY(name,url,769,img,'','','')
 	next = re.compile("a href='([^']*)'>Next.+?</a>").findall(html)
@@ -504,7 +508,7 @@ def redtube_collections(url):
 	
 def redtube_cats(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('class="top_categories_list">.+?href="(.+?)".+?data-source="(.+?)".+?alt="(.+?)".+?</li>',re.DOTALL).findall(html)
+	match = re.compile('id="category_.+?".+?href="(.+?)".+?data-thumb_url="(.+?)".+?alt="(.+?)".+?</li>',re.DOTALL).findall(html)
 	for url,img,name in match:
 		url = 'http://redtube.com'+url
 		name = clean_name.clean_name(name)
@@ -519,14 +523,12 @@ def redtube_search(url):
 	
 def redtube_video(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('class="videoblock_list.+?href="(.+?)".+?alt="(.+?)".+?data-thumb_url = "(.+?)".+?class="duration">.+?</span>(.+?)</span>',re.DOTALL).findall(html)
-	for url,name,img,time in match:
-		time = time.strip()
+	match = re.compile('class="videoblock_list.+?class="video_link.+?href="(.+?)".+?alt="(.+?)".+?data-thumb_url.+?"(.+?)".+?</li>',re.DOTALL).findall(html)
+	for url,name,img in match:
 		name = clean_name.clean_name(name)
 		xbmc.log('************ LOG THIS '+repr(url),xbmc.LOGNOTICE)
-		name = '[COLOR dodgerblue]%s[/COLOR] %s'%(time,name)
 		url = 'http://www.redtube.com'+url
-		process.Menu(name,url,732,img,'','','')
+		process.PLAY(name,url,732,img,'','','')
 	next = re.compile('<link rel="next" href="(.+?)">').findall(html)
 	for item in next:
 		process.Menu('Next Page',item,731,'https://i2.wp.com/now24.gr/wp-content/uploads/2013/12/redtube-icon.png','','',qual)
@@ -571,7 +573,7 @@ def search_youporn(url):
 	
 def youporn_collections(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('class=\'collection-box.+?four-column.+?href="(.+?)".+?data-original="(.+?)".+?class=\'videoCount\'>(.+?)</div>.+?class="collection-box-title".+?href=".+?">(.+?)</a>.+?</div>',re.DOTALL).findall(html)
+	match = re.compile('<div class=\'collection-box.+?href="(.+?)".+?data-original="(.+?)".+?class=\'videoCount\'>(.+?)</div>.+?class="collection-box-title".+?href=".+?" >(.+?)</a>',re.DOTALL).findall(html)
 	for url,img,vid_count,name in match:
 		name = '%s(%s videos)'%(name,vid_count)
 		process.Menu(name,'https://youporn.com'+url,725,img,'','','')
@@ -587,12 +589,12 @@ def youporn_categories(url):
 	
 def youporn_video(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('class=\'video-box.+?href="(.+?)".+?alt=\'(.+?)\'.+?thumbnail="(.+?)".+?.+?class="video-duration">(.+?)</div>.+?class="icon.+?</div>',re.DOTALL).findall(html)
+	match = re.compile('class=\'video-box four-column.+?class="watch-history-undo-button.+?href="(.+?)".+?alt=\'(.+?)\'.+?data-thumbnail="(.+?)".+?class="video-duration">(.+?)</div>',re.DOTALL).findall(html)
 	for url,name,img,length in match:
 		name = clean_name.clean_name(name)
 		url = 'https://www.youporn.com'+url
 		process.PLAY(name,url,728,img,'','','')
-	next = re.compile('<link rel="next" href="(.+?)" />').findall(html)
+	next = re.compile('<link rel="next" href="(.+?)"').findall(html)
 	for item in next:
 		process.Menu('Next Page',item,725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
 
@@ -726,7 +728,7 @@ def get_hamster_playlinks(url):
 					isFolder=False
 					xbmc.Player().play(playlink)
 
-#########################################PORN HUB###############################################################	
+######################################### PORN HUB ###############################################################	
 	
 def Porn_Hub():
 	process.Menu('Videos','http://www.pornhub.com/video',709,'http://cdimage.debian.org/mirror/addons.superrepo.org/v7/addons/plugin.video.pornhub/icon.png','','','')
@@ -749,10 +751,10 @@ def pornhub_get_search(url):
 		fin_url = pornhub+url
 		name = clean_name.clean_name(name)
 		process.PLAY(name,fin_url,711,image,'','','')
-	# next = re.compile('<link rel="next" href="(.+?)" />').findall(html)
-	# for item in next:
-	# 	item = clean_name.clean_name(item)
-	# 	process.Menu('Next Page',item,709,'','','','')
+	next = re.compile('<link rel="next" href="(.+?)" />').findall(html)
+	for item in next:
+		item = clean_name.clean_name(item)
+		process.Menu('Next Page',item,709,'','','','')
 
 	
 def get_pornstar(url):
@@ -780,16 +782,16 @@ def get_in_star_item(url):
 		
 def get_video_item(url):
 	html = process.OPEN_URL(url)
-	block = re.compile('class="nf-videos videos search-video-thumbs">(.+?)class="pagination3">',re.DOTALL).findall(html)
-	match = re.compile('class="phimage">.+?href="(.+?)" title="(.+?)".+?data-mediumthumb="(.+?)".+?class="duration">(.+?)</var>.+?</li>',re.DOTALL).findall(str(block))
+	# block = re.compile('class="nf-videos videos search-video-thumbs">(.+?)class="pagination3">',re.DOTALL).findall(html)
+	match = re.compile('class="phimage">.+?href="(.+?)" title="(.+?)".+?data-mediumthumb="(.+?)".+?class="duration">(.+?)</var>.+?</li>',re.DOTALL).findall(str(html))
 	for url,name,image,duration in match:
 		fin_url = pornhub+url
 		name = clean_name.clean_name(name)
 		process.PLAY(name,fin_url,711,image,'','','')
-	# next = re.compile('<link rel="next" href="(.+?)" />').findall(html)
-	# for item in next:
-	# 	item = clean_name.clean_name(item)
-	# 	process.Menu('Next Page',item,709,'','','','')
+	next = re.compile('<link rel="next" href="(.+?)" />').findall(html)
+	for item in next:
+		item = clean_name.clean_name(item)
+		process.Menu('Next Page',item,709,'','','','')
 
 			
 def get_cat_item(url):
@@ -826,7 +828,7 @@ def get_pornhub_playlinks(url):
 
 
 	
-##################################################XVIDEOS############################################################################	
+################################################## XVIDEOS ############################################################################	
 def X_vid_Menu():
 	process.Menu('Best Videos','http://www.xvideos.com/best',699,'https://pbs.twimg.com/profile_images/378800000578199366/cf160c1c86c13778a834bbade0c30e38.jpeg','','','')
 	process.Menu('Genres','http://www.xvideos.com',702,'https://pbs.twimg.com/profile_images/378800000578199366/cf160c1c86c13778a834bbade0c30e38.jpeg','','','')
@@ -922,13 +924,13 @@ def XPornstars(url):
 	  
 def XNew_Videos(url):
 	HTML = process.OPEN_URL(url)
-	match = re.compile('id="video.+?data-src="(.+?)".+?title=".+?href=".+?href="(.+?)".+?title="(.+?)">.+?href=".+?class="duration">(.+?)</span>.+?prepareVideo.+?</script>',re.DOTALL).findall(HTML)
+	match = re.compile('<div id="video.+?".+?data-src="(.+?)".+?<p><a href="(.+?)" title="(.+?)".+?"duration">(.+?)</span>',re.DOTALL).findall(HTML)
 	for iconz,pagez,title,time in match:
 		page = 'http://www.xvideos.com'+pagez
 		title = title.replace('&amp;',' & ')
 		title = title.replace('&#039;','\'')
 		titlez = '[COLOR dodgerblue]%s-[/COLOR] %s' %(time,title)
-		process.PLAY(title,page,907,iconz,'','','')	
+		process.PLAY(titlez,page,907,iconz,'','','')	
 	next_button2 = re.compile('class="pagination.+?class="active"\s*href=.+?href="(.+?)".+?id="footer">',re.DOTALL).findall(HTML)
 	for url in next_button2:
 		if 'Next' not in List:
@@ -1170,9 +1172,9 @@ def Plus_one_Menu():
 # 117
 def Plus_one_playlink(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('<meta itemprop="contentURL" content="(.+?)" />',re.DOTALL).findall(html)
+	match = re.compile('data-setup=".+?src="(.+?)"',re.DOTALL).findall(html)
 	for url in match:
-		url = url.strip()
+		url = url.replace(' ','%20').lower()
 		xnxx_resolve(url)
 
 # 119
