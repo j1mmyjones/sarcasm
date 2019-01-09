@@ -22,14 +22,12 @@ def perv_clips_menu():
 #1015
 def pervclips_vids(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('itemprop="url" href="(.+?)".+?class="img" data-thumb-dir=.+?src="(.+?)"(.+?)alt="(.+?)".+?itemprop="duration">(.+?)</span>',re.DOTALL).findall(html)
-	for url,img,rest,name,time in match:
+	match = re.compile('itemprop="url" href="(.+?)".+?data-poster="(.+?)" data-id="1061255975" data-src="(.+?)".+?alt="(.+?)".+?</div>',re.DOTALL).findall(html)
+	for url,img,vid_link,name in match:
 		if '.gif' in img:
 			img = re.compile('data-original="(.+?)".+?width=',re.DOTALL).findall(str(rest))[0]
-			name = '([COLOR dodgerblue]%s[/COLOR]) %s'%(time,name)
 			process.PLAY(name,url,1016,img,FANART,'','')
 		else:
-			name = '([COLOR dodgerblue]%s[/COLOR]) %s'%(time,name)
 			process.PLAY(name,url,1016,img,FANART,'','')
 		
 		# xbmc.executebuiltin('Container.SetViewMode(%d)' % 500)
@@ -37,7 +35,7 @@ def pervclips_vids(url):
 #1016
 def pervclips_playlinks(url):
 	html = process.OPEN_URL(url)
-	match = re.compile('sources:.+?src: \'(.+?)\'',re.DOTALL).findall(html)
+	match = re.compile('video_url: \'(.+?)\'',re.DOTALL).findall(html)
 	for link in match:
 		xbmc.Player().play(link)
 
