@@ -491,12 +491,15 @@ def redtube_channels(url):
     
 def redtube_pornstars(url):
     html = process.OPEN_URL(url)
-    match = re.compile('<li id="top_trending_ps.+?href="(.+?)".+?class="ps_info_image".+?src="(.+?)".+?alt="(.+?)".+?</li>',re.DOTALL).findall(html)
-    for url,img,name in match:
-        url = 'http://redtube.com'+url
-        name = clean_name.clean_name(name)
-        process.Menu(name,url,731,img,'','','')
-    
+    match = re.compile('<li id=".+?_ps_.+?".+?href="(.+?)".+?src="(.+?)".+?data-src = "(.+?)".+?alt="(.+?)".+?</li>',re.DOTALL).findall(html)
+    for url,img,rest,name in match:
+        if 'base64' in img:
+            img = rest
+            url = 'http://redtube.com'+url
+            name = clean_name.clean_name(name)
+            process.Menu(name,url,731,img,'','','')
+
+
 def redtube_collections(url):
     html = process.OPEN_URL(url)
     match = re.compile('class="video_playlist_details">.+?href="(.+?)">(.+?)</a>.+?data-src="(.+?)".+?class="playlist_video_count">',re.DOTALL).findall(html)
@@ -507,7 +510,7 @@ def redtube_collections(url):
     
 def redtube_cats(url):
     html = process.OPEN_URL(url)
-    match = re.compile('id="category_.+?".+?href="(.+?)".+?data-thumb_url="(.+?)".+?alt="(.+?)".+?</li>',re.DOTALL).findall(html)
+    match = re.compile('<li id="categories_list_block_.+?".+?href="(.+?)".+?data-src="(.+?)".+?alt="(.+?)".+?</li>',re.DOTALL).findall(html)
     for url,img,name in match:
         url = 'http://redtube.com'+url
         name = clean_name.clean_name(name)
@@ -522,10 +525,10 @@ def redtube_search(url):
     
 def redtube_video(url):
     html = process.OPEN_URL(url)
-    match = re.compile('class="videoblock_list.+?class="video_link.+?href="(.+?)".+?alt="(.+?)".+?data-thumb_url.+?"(.+?)".+?</li>',re.DOTALL).findall(html)
+    match = re.compile('<li.+?class="videoblock_list ".+?href="(.+?)".+?alt="(.+?)".+?data-src="(.+?)".+?</li>',re.DOTALL).findall(html)
     for url,name,img in match:
         name = clean_name.clean_name(name)
-        xbmc.log('************ LOG THIS '+repr(url),xbmc.LOGNOTICE)
+        # xbmc.log('************ LOG THIS '+repr(url),xbmc.LOGNOTICE)
         url = 'http://www.redtube.com'+url
         process.PLAY(name,url,732,img,'','','')
     next = re.compile('<link rel="next" href="(.+?)">').findall(html)
@@ -868,13 +871,15 @@ def play_now(url):
 def Xbest_videos(url):
     xvid_base = 'https://www.xvideos.com'
     html = process.OPEN_URL(url)
-    match = re.compile('id="video.+?<a href="(.+?)".+?data-src="(.+?)".+?title="(.+?)">.+?class="duration">(.+?)</span>.+?prepareVideo.+?</div>',re.DOTALL).findall(html)
+    match = re.compile('id="video.+?href="(.+?)".+?data-src="(.+?)".+?title=".+?">(.+?)</a>.+?class="duration">(.+?)</span>',re.DOTALL).findall(html)
     for pagez,iconz,title,time in match:
-        page = xvid_base+pagez
-        title = title.replace('&amp;',' & ')
-        title = title.replace('&#039;','\'')
-        titlez = '[COLOR dodgerblue]%s-[/COLOR] %s' %(time,title)
-        process.PLAY(title,page,907,iconz,'','','')
+        tits = re.compile('</span>.+?title="(.+?)">',re.DOTALL).findall(str(title))
+        for titz in tits:
+            page = xvid_base+pagez
+            titz = titz.replace('&amp;',' & ')
+            titz = titz.replace('&#039;','\'')
+            titlez = '[COLOR dodgerblue]%s-[/COLOR] %s' %(time,titz)
+            process.PLAY(titlez,page,907,iconz,'','','')
     nexzt = re.compile('class="pagination.+?class="active"\s*href=.+?href="(.+?)".+?id="footer">',re.DOTALL).findall(html)
     for next_Page in nexzt:
         next_Paige = xvid_base+next_Page

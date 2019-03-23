@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.pantyraiders" name="Panty Raiders" version="2.0" provider-name="The Perverted">
+<addon id="plugin.video.pantyraiders" name="Panty Raiders" version="2.1" provider-name="The Perverted">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
     <import addon="script.module.addon.common" />
     <import addon="script.module.requests" />
-    <import addon="script.module.simple.downloader" />
+    <!-- <import addon="script.module.simple.downloader" /> -->
     <import addon="script.module.httplib2" />
-    <import addon="script.module.web-pdb" />
+    <!-- <import addon="script.module.web-pdb" /> -->
     <import addon="script.module.simplejson" /> 
     <import addon="script.common.plugin.cache" />
 
