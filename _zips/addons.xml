@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
+################################################
+############## A Repo for the helpful  #########
+############## not looking for Praise ##########
+############## or Popularity ###################
+################################################
+
 <addon id="plugin.video.bigger.pockets" name="BiggerPockets Podcast" version="0.0.1" provider-name="Bart Simpson">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
