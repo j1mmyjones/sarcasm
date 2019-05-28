@@ -43,8 +43,9 @@ def porn300_vids(url):
 #1010
 def porn300_cats(url):
     html = process.OPEN_URL(url)
-    match = re.compile('class="grid__item grid__item--.+?href="(.+?)".+?image" src=(.+?)alt="(.+?)".+?</ul>.+?</li>',re.DOTALL).findall(html)
-    for url,img,name in match:
+    block = re.compile('class="grid grid--categories(.+?)id="techpump-paginator-ajax',re.DOTALL).findall(html)
+    match = re.compile('href="(.+?)".+?gtmname="(.+?)".+?src="(.+?)".+?</li>',re.DOTALL).findall(str(block))
+    for url,name,img in match:
         url = 'https://www.porn300.com'+url
         process.Menu(name,url,1009,img,FANART,'','')
 

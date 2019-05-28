@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import urllib2, urllib, xbmcgui, xbmcplugin, xbmcaddon, xbmc, re, sys, os, process,requests
 import clean_name
+from bs4 import BeautifulSoup as soup
+import HTMLParser
 ADDON_PATH = xbmc.translatePath('special://home/addons/plugin.video.pantyraiders')
 ICON = ADDON_PATH + '/icon.png'
 FANART = 'special://home/addons/plugin.video.pantyraiders/fanart.jpg'
@@ -19,10 +21,10 @@ def Porn_Menu():
     process.Menu('Chaturbate','',720,'https://pbs.twimg.com/profile_images/671662441210753024/sE2tHWMB_400x400.png',FANART,'','')
     process.Menu('YouPorn','',723,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png',FANART,'','')
     process.Menu('RedTube','',730,'https://i2.wp.com/now24.gr/wp-content/uploads/2013/12/redtube-icon.png',FANART,'','')
-    process.Menu('Tube 8','',738,'https://i.imgur.com/PMIMLrE.jpg',FANART,'','')
+    process.Menu('Tube 8','',738,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg',FANART,'','')
     process.Menu('Thumbzilla','',745,'https://bi.phncdn.com/www-static/thumbzilla/images/pc/logo.png?cache=2018031523',FANART,'','')
     # process.Menu('XTube','',753,'https://pbs.twimg.com/profile_images/732348322044903425/xTK0J4Cz.jpg',FANART,'','')
-    process.Menu('Eporner','',760,'https://i.imgur.com/cZ0oEj2.jpg',FANART,'','')
+    process.Menu('Eporner','',760,'https://static-ca-cdn.epOrner.com/favicon.png',FANART,'','')
     process.Menu('YouJizz','',771,'https://pbs.twimg.com/profile_images/3332003625/23c080fbec17cfb45ca3fd40ec06afe1.png',FANART,'','')
     process.Menu('SpankWire','',772,'https://pbs.twimg.com/profile_images/665600820419952640/POpDwoka_400x400.png',FANART,'','')
     process.Menu('Best Porn Collection','',100,'https://i.imgur.com/Rb3AZGF.png',FANART,'','')
@@ -172,17 +174,17 @@ def youjizz_search():
 ###############################Eporner##########################################
 
 def eporner():
-    process.Menu('4k','https://www.eporner.com/category/4k-porn/',761,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('1080p','https://www.eporner.com/category/hd-1080p/',761,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('60fps','https://www.eporner.com/category/60fps/',761,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('HD','https://www.eporner.com/category/hd-sex/',761,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('Popular','https://www.eporner.com/popular/',761,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('Top Rated','https://www.eporner.com/top-rated/',761,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('Amateur','https://www.eporner.com/category/amateur/',761,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('Solo Girls','https://www.eporner.com/category/amateur/',761,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('Pornstars','https://www.eporner.com/pornstars/',762,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('Categories','https://www.eporner.com/categories/',763,'https://i.imgur.com/cZ0oEj2.jpg','','','')
-    process.Menu('Search','',764,'https://i.imgur.com/cZ0oEj2.jpg','','','')
+    process.Menu('4k','https://www.eporner.com/category/4k-porn/',761,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('1080p','https://www.eporner.com/category/hd-1080p/',761,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('60fps','https://www.eporner.com/category/60fps/',761,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('HD','https://www.eporner.com/category/hd-sex/',761,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('Popular','https://www.eporner.com/popular/',761,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('Top Rated','https://www.eporner.com/top-rated/',761,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('Amateur','https://www.eporner.com/category/amateur/',761,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('Solo Girls','https://www.eporner.com/category/amateur/',761,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('Pornstars','https://www.eporner.com/pornstars/',762,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('Categories','https://www.eporner.com/categories/',763,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
+    process.Menu('Search','',764,'https://static-ca-cdn.epOrner.com/favicon.png','','','')
 
 def eporner_search():
     Dialog = xbmcgui.Dialog()
@@ -220,11 +222,11 @@ def eporner_cats(url):
     
 def eporner_video(url):
     html = process.OPEN_URL(url)
-    match = re.compile('onmouseenter="show_video_prev.+?<span>(.+?)</span>.+?<a href="(.+?)".+?title="(.+?)".+?<img id=.+?src="(.+?)".+?"mbtim">(.+?)</div>',re.DOTALL).findall(html)
-    for max_qual,url,name,img,length in match:
+    match = re.compile('onmouseenter.+?<span>(.+?)</span>.+?href="(.+?)".+?title="(.+?)".+?img src="(.+?)"',re.DOTALL).findall(html)
+    for max_qual,url,name,img in match:
         url = 'http://www.eporner.com'+url
         name = clean_name.clean_name(name)
-        name = max_qual.replace('4K','[COLOR darkgoldenrod][B]4K[/B][/COLOR]')+'-[COLORred]'+length+'[/COLOR]-'+name
+        name = max_qual.replace('4K (2160p)','[COLOR darkgoldenrod][B]4K [/B][/COLOR]')+ name
         process.PLAY(name,url,759,img,'','','')
     next = re.compile('<a href="([^"]*)" title="Next page">').findall(html)
     for item in next:
@@ -398,28 +400,58 @@ def thumbzilla_playlink(url):
 ################################ Tube 8 ##########################################
 
 def tube8():
-    process.Menu('Longest','http://www.tube8.com/longest.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
-    process.Menu('Most Discussed','http://www.tube8.com/mostdiscussed.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
-    process.Menu('Most Favourited','http://www.tube8.com/mostfavorited.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
-    process.Menu('Most Viewed','http://www.tube8.com/mostviewed.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
-    process.Menu('Most Voted','http://www.tube8.com/mostvoted.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
-    process.Menu('Newest','https://www.tube8.com/latest.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
-    process.Menu('Top','http://www.tube8.com/top.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+    process.Menu('Longest','https://www.tube8.com/longest.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+    process.Menu('Most Discussed','https://www.tube8.com/mostdiscussed.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+    process.Menu('Most Favourited','https://www.tube8.com/mostfavorited.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+    process.Menu('Most Viewed','https://www.tube8.com/mostviewed.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+    process.Menu('Most Voted','https://www.tube8.com/mostvoted.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+    process.Menu('Newest','https://www.tube8.com/latest.html',802,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+    process.Menu('Top','https://www.tube8.com/top.html',739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
     # process.Menu('Categories','https://www.tube8.com/categories.html',741,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
-    process.Menu('Tags','http://www.tube8.com/tags.html',742,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+    process.Menu('Tags','https://www.tube8.com/tags.html',742,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
     # process.Menu('Search','',743,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
 
 def tube8_videos(url):
-    html = process.OPEN_URL(url)
-    block = re.compile('id="categoriesBtn">(.+?)</html>',re.DOTALL).findall(html)
-    match = re.compile('id="boxVideo_.+?".+?href="(.+?)".+?data-thumb="(.+?)".+?alt="(.+?)".+?class="video_duration">(.+?)</div>',re.DOTALL).findall(str(block))
-    for url,img,name,length in match:
-        name = clean_name.clean_name(name)
-        length = clean_name.clean_name(length)
-        process.PLAY('[COLORred]'+length+'[/COLOR] : '+name,url,740,img,'','','')
-    next = re.compile('<link rel="next" href="(.+?)">').findall(html)
+    html = requests.get(url)
+    htmlz = requests.get(url).content
+    content = soup(html.content,'html.parser')
+    containers = content.find_all('div',{'id': 'category_video_list'})
+    for vids in containers:
+        vid = vids.find_all('figure',{'class': 'video_box'})
+        for this in vid:
+            match = re.compile('data-video_url="(.+?)".+?alt="(.+?)".+?data-thumb="(.+?)".+?</figure>',re.DOTALL).findall(str(this))
+            for url,name,img in match:
+                name = clean_name.clean_name(name)
+                process.PLAY(name,url,740,img,'','','')
+    next = re.compile('<link rel="next" href="(.+?)">').findall(htmlz)
     for item in next:
         process.Menu('Next Page',item,739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+
+# 802
+def tube8_newest_vids(url):
+    html = requests.get(url).content
+    block = re.compile('id="category_video_list(.+?)class="footerBanner',re.DOTALL).findall(html)
+    match = re.compile('figure.+?id=".+?href="(.+?)".+?data-thumb="(.+?)".+?alt="(.+?)".+?</figure>',re.DOTALL).findall(str(block))
+    for url,img,name in match:
+        name = clean_name.clean_name(name)
+        process.PLAY(name,url,740,img,'','','')
+    next = re.compile('<link rel="next" href="(.+?)">').findall(html)
+    for item in next:
+        process.Menu('Next Page',item,802,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+        
+
+# 801
+def tube8_tag_videos(url):
+    html = requests.get(url).content
+    block = re.compile('id="search_results_page_wrapper(.+?)class="footerBanner',re.DOTALL).findall(html)
+    match = re.compile('figure.+?id=".+?href="(.+?)".+?data-thumb="(.+?)".+?alt="(.+?)".+?</figure>',re.DOTALL).findall(str(block))
+    for url,img,name in match:
+        name = clean_name.clean_name(name)
+        process.PLAY(name,url,740,img,'','','')
+    next = re.compile('<link rel="next" href="(.+?)">').findall(html)
+    for item in next:
+        process.Menu('Next Page',item,801,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+        
         
 def tube8_cats(url):
     html = process.OPEN_URL(url)
@@ -438,7 +470,7 @@ def tube8_letters(letter,url):
     match = re.compile('<li class="tag" title="(.+?)">.+?<a class="tag" href="(.+?)">',re.DOTALL).findall(html)
     for name,url in match:
         if letter.lower() == name[0].lower():
-            process.Menu(name,url,739,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
+            process.Menu(name,url,801,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg','','','')
     
 def tube8_search():
     Dialog = xbmcgui.Dialog()
@@ -524,17 +556,21 @@ def redtube_search(url):
     redtube_video(url)
     
 def redtube_video(url):
-    html = process.OPEN_URL(url)
-    match = re.compile('<li.+?class="videoblock_list ".+?href="(.+?)".+?alt="(.+?)".+?data-src="(.+?)".+?</li>',re.DOTALL).findall(html)
-    for url,name,img in match:
-        name = clean_name.clean_name(name)
-        # xbmc.log('************ LOG THIS '+repr(url),xbmc.LOGNOTICE)
-        url = 'http://www.redtube.com'+url
-        process.PLAY(name,url,732,img,'','','')
-    next = re.compile('<link rel="next" href="(.+?)">').findall(html)
-    for item in next:
-        process.Menu('Next Page',item,731,'https://i2.wp.com/now24.gr/wp-content/uploads/2013/12/redtube-icon.png','','',qual)
-    
+    html = requests.get(url)
+    htmlz = requests.get(url).content
+    content = BeautifulSoup(html.content,'html.parser')
+    containers = content.find_all('li',{'class': 'videoblock_list'})
+    nextp = content.find('a',{'id': 'wp_navNext'})
+    next_page = re.compile('href="(.+?)"',re.DOTALL).findall(str(nextp))
+    item = next_page[0]
+    for container in containers:
+        match = re.compile('href="(.+?)".+?alt="(.+?)".+?data-thumb_url="(.+?)"',re.DOTALL).findall(str(container))
+        for url,name,img in match:
+            # xbmc.log('************ LOG THIS '+repr(url),xbmc.LOGNOTICE)
+            url = 'http://www.redtube.com'+url
+            process.PLAY(name,url,732,img,'','','')
+    process.Menu('Next Page',item,731,'https://i2.wp.com/now24.gr/wp-content/uploads/2013/12/redtube-icon.png','','','')
+        
 def redtube_playlink(url):
     sources = []
     html = process.OPEN_URL(url)
@@ -554,15 +590,15 @@ def redtube_playlink(url):
 ################################ You Porn ########################################
 
 def YouPorn():
-    process.Menu('New Videos','http://www.youporn.com/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
-    process.Menu('Recommended','http://www.youporn.com/recommended/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
-    process.Menu('Top Rated','http://www.youporn.com/top_rated/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
-    process.Menu('Most Viewed','http://www.youporn.com/most_viewed/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
-    process.Menu('Most Favourited','http://www.youporn.com/most_favorited/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
-    process.Menu('Most Discussed','http://www.youporn.com/most_discussed/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
-    process.Menu('Collections','http://www.youporn.com/collections/',726,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
-    process.Menu('Random Video','http://www.youporn.com/random/video/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
-    process.Menu('Categories','http://www.youporn.com/categories/',727,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('New Videos','https://www.youporn.com/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('Recommended','https://www.youporn.com/recommended/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('Top Rated','https://www.youporn.com/top_rated/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('Most Viewed','https://www.youporn.com/most_viewed/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('Most Favourited','https://www.youporn.com/most_favorited/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('Most Discussed','https://www.youporn.com/most_discussed/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('Collections','https://www.youporn.com/collections/',726,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('Random Video','https://www.youporn.com/random/video/',725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    process.Menu('Top Categories','https://www.youporn.com/categories/',727,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
     process.Menu('Search','',729,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
 
 def search_youporn(url):
@@ -574,32 +610,45 @@ def search_youporn(url):
     
     
 def youporn_collections(url):
-    html = process.OPEN_URL(url)
-    match = re.compile('<div class=\'collection-box.+?href="(.+?)".+?data-original="(.+?)".+?class=\'videoCount\'>(.+?)</div>.+?class="collection-box-title".+?href=".+?" >(.+?)</a>',re.DOTALL).findall(html)
-    for url,img,vid_count,name in match:
-        name = '%s(%s videos)'%(name,vid_count)
+    html = requests.get(url)
+    content = BeautifulSoup(html.content,'html.parser')
+    containers = content.find_all('div',{'data-espnode': 'collection_box'})
+    for container in containers:
+        url = container.a['href']
+        title = container.find('div',{'class': 'collection-box-title'})
+        name = title.a.text
+        image = container.img['data-thumbnail']
+        img = image
+        vids = container.find('div',{'class': 'videoCount'})
+        vid_count = vids.text
+        name= '%s ([COLORdodgerblue]%s Videos[/COLOR])'%(name,vid_count)
         process.Menu(name,'https://youporn.com'+url,725,img,'','','')
 
 def youporn_categories(url):    
-    html = process.OPEN_URL(url)
-    block = re.compile('class="container categoryListWrapper">(.+?)id="countryFlags">',re.DOTALL).findall(html)
-    for item in block:
-        match = re.compile('<a href="(.+?)".+?data-original="(.+?)".+?alt="(.+?)".+?<span>(.+?)</span>.+?</a>',re.DOTALL).findall(str(item))
-        for url,img,name,vid_count in match:
+    html = requests.get(url)
+    content = BeautifulSoup(html.content,'html.parser')
+    containers = content.find_all('div',{'class': 'hidden-box'})
+    for container in containers:
+        match = re.compile('class="top-trending-cat".+?href="(.+?)".+?alt="(.+?)".+?data-original="(.+?)".+?</a>',re.DOTALL).findall(str(container))
+        for url,name,img in match:
             url = 'https://youporn.com'+url
-            name= '%s([COLORdodgerblue]%s[/COLOR])'%(name,vid_count)
             process.Menu(name,url,725,img,'','','')
-    
+ 
+
+
 def youporn_video(url):
-    html = process.OPEN_URL(url)
-    match = re.compile('<div data-espnode="videobox".+?href="(.+?)".+?data-thumbnail="(.+?)".+?class="video-box-title">(.+?)</div>.+?class="icon-thin-x">.+?</div>',re.DOTALL).findall(html)
-    for url,img,name in match:
-        name = clean_name.clean_name(name)
-        url = 'https://www.youporn.com'+url
-        process.PLAY(name,url,728,img,'','','')
-    next = re.compile('<link rel="next" href="(.+?)"').findall(html)
-    for item in next:
-        process.Menu('Next Page',item,725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
+    html = requests.get(url)
+    content = BeautifulSoup(html.content,'html.parser')
+    for a in content.find_all('a',{'class': 'video-box-image'}):
+        match = re.compile('href="(.+?)".+?alt="(.+?)".+?data-thumbnail="(.+?)"',re.DOTALL).findall(str(a))
+        for url,name,img in match:
+            name = clean_name.clean_name(name)
+            url = 'https://www.youporn.com'+url
+            process.PLAY(name,url,728,img,'','','')
+    for b in content.find_all('link',{'rel': 'next'}):
+        match = re.compile('href="(.+?)".+?rel="next"',re.DOTALL).findall(str(b))
+        for page in match:
+            process.Menu('Next Page',page,725,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png','','','')
 
 def youporn_new_video(url):
     html = process.OPEN_URL(url)
@@ -735,7 +784,7 @@ def get_hamster_playlinks(url):
     
 def Porn_Hub():
     process.Menu('Videos','http://www.pornhub.com/video',709,'http://cdimage.debian.org/mirror/addons.superrepo.org/v7/addons/plugin.video.pornhub/icon.png','','','')
-    process.Menu('Categories','http://www.pornhub.com/categories',710,'http://cdimage.debian.org/mirror/addons.superrepo.org/v7/addons/plugin.video.pornhub/icon.png','','','')
+    process.Menu('Categories','https://www.pornhub.com/categories',710,'http://cdimage.debian.org/mirror/addons.superrepo.org/v7/addons/plugin.video.pornhub/icon.png','','','')
     process.Menu('Pornstars','http://www.pornhub.com/pornstars',712,'http://cdimage.debian.org/mirror/addons.superrepo.org/v7/addons/plugin.video.pornhub/icon.png','','','')
     process.Menu('Search','',713,'http://cdimage.debian.org/mirror/addons.superrepo.org/v7/addons/plugin.video.pornhub/icon.png','','','')
     
@@ -775,14 +824,17 @@ def get_pornstar(url):
 
 # mode 911
 def get_in_star_item(url):
-    url= url+"/videos"
-    html = process.OPEN_URL(url)
-    block = re.compile('class="mediumPlayAllBtn float-right">(.+?)class="pagination3">',re.DOTALL).findall(html)
-    match = re.compile('<li class=" js-pop videoblock videoBox".+?href="(.+?)".+?data-thumb_url = "(.+?)".+?alt="(.+?)".+?class="added".+?</li>',re.DOTALL).findall(str(block))
-    for url,image,name in match:
-        fin_url = pornhub+url
-        name = clean_name.clean_name(name)
-        process.PLAY(name,fin_url,711,image,'','','')
+    # url= url+"/videos"
+    html = requests.get(url)
+    content = BeautifulSoup(html.content,'html.parser')
+    containers = content.find_all('ul',{'class': 'videos row-5-thumbs search-video-thumbs pornstarsVideos'})
+    for container in containers:
+        vids = container.find_all('div',{'class': 'phimage'})
+        match = re.compile('class="preloadLine".+?href="(.+?)".+?title="(.+?)".+?data-thumb_url.+?"(.+?)"',re.DOTALL).findall(str(vids))
+        for url,name,img in match:
+            fin_url = pornhub+url
+            name = clean_name.clean_name(name)
+            process.PLAY(name,fin_url,711,img,'','','')
 
         
 def get_video_item(url):
@@ -798,29 +850,40 @@ def get_video_item(url):
         item = clean_name.clean_name(item)
         process.Menu('Next Page',item,709,'','','','')
 
-            
+
+ #710           
 def get_cat_item(url):
     html = process.OPEN_URL(url)
     block = re.compile('id="categoriesStraightImages"(.+?)class="footerContent">',re.DOTALL).findall(html)
-    match = re.compile('<li class="cat_pic".+?href="(.+?)" alt="(.+?)".+?data-thumb_url="(.+?)".+?</li>',re.DOTALL).findall(str(block))
+    match = re.compile('<li.+?class="cat_pic".+?data-category=.+?href="(.+?)".+?alt="(.+?)".+?data-thumb_url="(.+?)".+?</li>',re.DOTALL).findall(str(block))
     for url,name,img in match:
         url = pornhub+url
-        process.Menu(name,url,709,img,'','','')
-    # match = re.compile('<li class="big video">.+?href="(.+?)".+?alt="(.+?)">.+?data-image="(.+?)".+?</li>',re.DOTALL).findall(html)
-    # for url,name,image in match:
-    #     url = pornhub + url
-    #     process.Menu(name.encode('utf-8', 'ignore'),url,709,image,image,'','')
+        process.Menu(name,url,800,img,'','','')
+
+#800
+def get_cat_video_item(url):
+    html = process.OPEN_URL(url)
+    # block = re.compile('class="nf-videos videos search-video-thumbs">(.+?)class="pagination3">',re.DOTALL).findall(html)
+    match = re.compile('<li class=" js-pop videoblock.+?href="(.+?)".+?title="(.+?)".+?data-thumb_url =.+?"(.+?)".+?class="duration">(.+?)</var>.+?</li>',re.DOTALL).findall(str(html))
+    for url,name,image,duration in match:
+        fin_url = pornhub+url
+        name = clean_name.clean_name(name)
+        process.PLAY(name,fin_url,711,image,'','','')
+    next = re.compile('<link rel="next" href="(.+?)" />').findall(html)
+    for item in next:
+        item = clean_name.clean_name(item)
+        process.Menu('Next Page',item,800,'','','','')
     
 def get_pornhub_playlinks(url):
     sources = []
-    xbmc.log('url:'+url,xbmc.LOGNOTICE)
+    # xbmc.log('url:'+url,xbmc.LOGNOTICE)
     html = process.OPEN_URL(url)
-    block = re.compile('"defaultQuality"(.+?)}').findall(html)
+    block = re.compile('{"defaultQuality"(.+?)}').findall(html)
     for b in block:
         try:
             qual = re.findall('"quality":"(.+?)"',str(b))[0]
             playlink = re.findall('"videoUrl":"(.+?)"',str(b))[0]
-            qual = qual.replace('\)','p\)')
+            # qual = qual.replace('\)','p\)')
             playlink = playlink.replace('\\','')
             sources.append({'quality': qual, 'url': playlink})
         except:
@@ -1168,8 +1231,8 @@ def xnxx_resolve(url):
 # 118
 def Plus_one_Menu():
     process.Menu('New Videos','http://plusone8.com/',119,'https://i.imgur.com/6TArSBc.png','','','')
-    process.Menu('Most Viewed','http://plusone8.com/?filter=views',119,'https://i.imgur.com/6TArSBc.png','','','')
-    process.Menu('Long Videos','http://plusone8.com/?filter=duration',119,'https://i.imgur.com/6TArSBc.png','','','')
+    process.Menu('Most Viewed','http://plusone8.com/?filter=popular',119,'https://i.imgur.com/6TArSBc.png','','','')
+    process.Menu('Long Videos','http://plusone8.com/?filter=longest',119,'https://i.imgur.com/6TArSBc.png','','','')
     process.Menu('Random','http://plusone8.com/?filter=random',119,'https://i.imgur.com/6TArSBc.png','','','')
     process.Menu('Categories','http://plusone8.com/porn-categories/',121,'https://i.imgur.com/6TArSBc.png','','','')
     process.Menu('Search','http://plusone8.com/?filter=random',120,'https://i.imgur.com/6TArSBc.png','','','')
@@ -1178,24 +1241,32 @@ def Plus_one_Menu():
 
 # 117
 def Plus_one_playlink(url):
-    html = process.OPEN_URL(url)
-    match = re.compile('data-setup=".+?src="(.+?)"',re.DOTALL).findall(html)
-    for url in match:
-        url = url.replace(' ','%20').lower()
-        xnxx_resolve(url)
+    html = requests.get(url)
+    content = soup(html.content,'html.parser')
+    containers = content.find_all('div',{'class': 'wps-player'})
+    for contain in containers:
+        block = re.compile('source src="(.+?)"',re.DOTALL).findall(str(contain))
+        for url in block:
+            xnxx_resolve(url)
 
 # 119
 def Plus_one_vids(url):
-    html = process.OPEN_URL(url)
-    block = re.compile('id="inner-content"(.+?)class="pagination text-center',re.DOTALL).findall(html)
-    match = re.compile('class="column">.+?href="(.+?)".+?src="(.+?)".+?alt="(.+?)".+?class="length".+?</i>(.+?)</span>',re.DOTALL).findall(str(block))
-    for url,img,title,time in match:
-        time = time.strip()
-        name = re.sub('(\d+)','', title)
-        name = re.sub('-',' ',name)
-        name = re.sub('&#;','\'',name)
-        name = '[COLORdodgerblue](%s)[/COLOR] %s'%(time,name)
-        process.PLAY(name,url,117,img,'','','')
+    html = requests.get(url)
+    content = soup(html.content,'html.parser')
+    containers = content.find_all('div',{'class': 'videos-list'})
+    contains_np = content.find_all('div',{'class': 'pagination'})
+    for next_page in contains_np:
+        naext_paige = next_page.find_all('a',href=True)
+        for link in naext_paige:
+            blockz = re.compile('href="(.+?)">Next</a>',re.DOTALL).findall(str(link))
+            for naxt_p in blockz:
+                process.Menu('NEXT PAGE',naxt_p,119,next_page_con,'','','')
+        for contain in containers:
+            block = re.compile('class="thumb-block.+?href="(.+?)".+?data-src="(.+?)".+?class="title">(.+?)</span>.+?</article>',re.DOTALL).findall(str(contain))
+            for url,img,name in block:
+                process.PLAY(name,url,117,img,'','','')
+                
+                        
 
 # 120
 def Plus_one_Search():
@@ -1205,18 +1276,14 @@ def Plus_one_Search():
     Search_name = Search_title.replace(' ','+').lower()
     Search_url = Search_url+Search_name
     url = Search_url
-    html = process.OPEN_URL(url)
-    block = re.compile('id="inner-content"(.+?)class="pagination text-center',re.DOTALL).findall(html)
-    match = re.compile('class="column">.+?href="(.+?)".+?src="(.+?)".+?alt="(.+?)".+?class="length".+?</i>(.+?)</span>',re.DOTALL).findall(str(block))
-    for page,icon,titlez,length in match:
-        length = length.strip()
-        title = titlez.replace('&amp;',' & ')
-        title = title.replace('&#039;','\'')
-        name = re.sub('(\d+)','', title)
-        name = re.sub('-',' ',name)
-        title = re.sub('&#;','\'',name)
-        title = '[COLOR dodgerblue]%s[/COLOR]%s' % (length,title)
-        process.PLAY(title,page,117,icon,'','','')
+    html = requests.get(url)
+    content = soup(html.content,'html.parser')
+    containers = content.find_all('div',{'class': 'videos-list'})
+    for contain in containers:
+        block = re.compile('class="thumb-block.+?href="(.+?)".+?data-src="(.+?)".+?class="title">(.+?)</span>.+?</article>',re.DOTALL).findall(str(contain))
+        for url,img,name in block:
+            process.PLAY(name,url,117,img,'','','')
+
 
 def Plus_one_cats(url):
     html = process.OPEN_URL(url)
@@ -1267,18 +1334,23 @@ def porndig_4k_vids(url):
 def porndig_playlink(url):
     sources=[]
     html = process.OPEN_URL(url)
-    block = re.compile('class="icon icon-download_video">(.+?)class="video_actions_item hidden-xs hidden-sm',re.DOTALL).findall(html)
-    match = re.compile('href="(.+?)".+?class="pull-left">(.+?)</span>.+?</a>',re.DOTALL).findall(str(block))
-    for playlink,qual in match:
-        try:
-            sources.append({'quality': qual, 'url': playlink})
-        except:
-            pass
-    choice = Dialog.select('Select Playlink',[link["quality"] for link in sources])
-    if choice != -1:
-        url = sources[choice]['url']
-        isFolder=False
-        xbmc.Player().play(url)             
+    match = re.compile('link rel="prefetch".+?href="(.+?)"><script',re.DOTALL).findall(html)
+    for main_page in match:
+        page_link = requests.get(main_page).content
+        blocking = re.compile('sources":(.+?)"analytics"',re.DOTALL).findall(page_link)
+        for links in blocking:
+            urls = re.compile('"src": "(.+?)".+?label": "(.+?)".+?res',re.DOTALL).findall(str(links))
+            for playlink,qual in urls:
+                playlink = playlink.replace('\\','')
+                try:
+                    sources.append({'quality': qual, 'url': playlink})
+                except:
+                    pass
+        choice = Dialog.select('Select Playlink',[link["quality"] for link in sources])
+        if choice != -1:
+            url = sources[choice]['url']
+            isFolder=False
+            xbmc.Player().play(url)             
 
 #1003
 def porndig_studios(url):

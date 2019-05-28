@@ -1,6 +1,6 @@
 import xbmcplugin, xbmc, xbmcaddon, urllib, xbmcgui, traceback, requests, re, os, base64
 from lib import process
-# from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 import os, shutil, xbmcgui
 addon_id = 'plugin.video.pantyraiders'
 addons = xbmc.translatePath('special://home/addons/')
@@ -17,19 +17,17 @@ def Main_Menu():
 	process.Menu('Chaturbate','',720,'https://pbs.twimg.com/profile_images/671662441210753024/sE2tHWMB_400x400.png',FANART,'','')
 	process.Menu('YouPorn','',723,'http://pool.img.aptoide.com/rico-heat/e83b919fd9245aa2b31457929bb73f08_icon.png',FANART,'','')
 	process.Menu('RedTube','',730,'https://i2.wp.com/now24.gr/wp-content/uploads/2013/12/redtube-icon.png',FANART,'','')
-	process.Menu('Tube 8','',738,'https://i.imgur.com/PMIMLrE.jpg',FANART,'','')
+	process.Menu('Tube 8','',738,'https://a3-images.myspacecdn.com/images03/1/cb9e1e694ca941abaf62f0026d18049f/300x300.jpg',FANART,'','')
 	process.Menu('Thumbzilla','',745,'https://bi.phncdn.com/www-static/thumbzilla/images/pc/logo.png?cache=2018031523',FANART,'','')
 	# process.Menu('XTube','',753,'https://pbs.twimg.com/profile_images/732348322044903425/xTK0J4Cz.jpg',FANART,'','')
-	process.Menu('Eporner','',760,'https://i.imgur.com/cZ0oEj2.jpg',FANART,'','')
+	process.Menu('Eporner','',760,'https://static-ca-cdn.epOrner.com/favicon.png',FANART,'','')
 	process.Menu('YouJizz','',771,'https://pbs.twimg.com/profile_images/3332003625/23c080fbec17cfb45ca3fd40ec06afe1.png',FANART,'','')
 	# process.Menu('SpankWire','',772,'https://pbs.twimg.com/profile_images/665600820419952640/POpDwoka_400x400.png',FANART,'','')
 	process.Menu('Best Porn Collection','',100,'https://i.imgur.com/Rb3AZGF.png',FANART,'','')
 	process.Menu('XNXX','',107,'https://i.imgur.com/vQmrXsw.png',FANART,'','')
-	# process.Menu('PlusOne8','',118,'https://i.imgur.com/NfUL3zz.png',FANART,'','')
+	process.Menu('PlusOne8','',118,'https://i.imgur.com/NfUL3zz.png',FANART,'','')
 	process.Menu('PornDig','',1000,'https://assets.porndig.com/assets/porndig/img/logo/logo_1.png?ver=1484644435',FANART,'','')
 	process.Menu('Porn 300','',1007,'https://www.porn300.com/android-icon-192x192.png',FANART,'','')
-	# process.Menu('PervClips','',1014,'https://pervclips.com/tube/images/favicon-152.png',FANART,'','')
-	# process.Menu('Watch My GF','',1019,'https://www.watchmygf.me/images/logo.png',FANART,'','')
 	
  
 
@@ -146,6 +144,7 @@ elif mode == 707: from lib import xxx_vids;xxx_vids.Porn_Menu()
 elif mode == 708: from lib import xxx_vids;xxx_vids.Porn_Hub()
 elif mode == 709: from lib import xxx_vids;xxx_vids.get_video_item(url)
 elif mode == 710: from lib import xxx_vids;xxx_vids.get_cat_item(url)
+elif mode == 800: from lib import xxx_vids;xxx_vids.get_cat_video_item(url)
 elif mode == 711: from lib import xxx_vids;xxx_vids.get_pornhub_playlinks(url)
 elif mode == 712: from lib import xxx_vids;xxx_vids.get_pornstar(url)
 elif mode == 713: from lib import xxx_vids;xxx_vids.search_pornhub()
@@ -175,6 +174,10 @@ elif mode == 736: from lib import xxx_vids;xxx_vids.redtube_cats(url)
 elif mode == 737: from lib import xxx_vids;xxx_vids.redtube_search(url)
 elif mode == 738: from lib import xxx_vids;xxx_vids.tube8()
 elif mode == 739: from lib import xxx_vids;xxx_vids.tube8_videos(url)
+elif mode == 801: from lib import xxx_vids;xxx_vids.tube8_tag_videos(url)
+elif mode == 802: from lib import xxx_vids;xxx_vids.tube8_newest_vids(url)
+
+
 elif mode == 740: from lib import xxx_vids;xxx_vids.tube8_playlink(url)
 elif mode == 741: from lib import xxx_vids;xxx_vids.tube8_cats(url)
 elif mode == 742: from lib import xxx_vids;xxx_vids.tube8_tags(url)
@@ -213,6 +216,7 @@ elif mode == 775: from lib import xxx_vids;xxx_vids.spank_videos(url)
 elif mode == 776: from lib import xxx_vids;xxx_vids.spank_search()
 elif mode == 777: from lib import xxx_vids;xxx_vids.spank_playlink(url)
 elif mode == 778: from lib import xxx_vids;xxx_vids.spank_tags_letter(name,url)
+
 elif mode == 906: process.Big_Resolve(name,url)
 elif mode == 907: from lib import xxx_vids;xxx_vids.xvid_link(url)
 elif mode == 908: from lib import xxx_vids;xxx_vids.play_now(url)
@@ -258,18 +262,8 @@ elif mode == 1010: from lib.sites import porn300;porn300.porn300_cats(url)
 elif mode == 1011: from lib.sites import porn300;porn300.porn300_search()
 elif mode == 1012: from lib.sites import porn300;porn300.porn300_starz(url)
 elif mode == 1013: from lib.sites import porn300;porn300.porn300_channels(url)
-elif mode == 1014: from lib.sites import pervclips;pervclips.perv_clips_menu()
-elif mode == 1015: from lib.sites import pervclips;pervclips.pervclips_vids(url)
-elif mode == 1016: from lib.sites import pervclips;pervclips.pervclips_playlinks(url)
-elif mode == 1017: from lib.sites import pervclips;pervclips.pervclips_cats(url)
-elif mode == 1018: from lib.sites import pervclips;pervclips.pervclips_search()
-elif mode == 1019: from lib.sites import watchmygf;watchmygf.watchmygf_menu()
-elif mode == 1020: from lib.sites import watchmygf;watchmygf.watchmygf_vids(url)
-elif mode == 1021: from lib.sites import watchmygf;watchmygf.watchmygf_playlink(url)
-elif mode == 1022: from lib.sites import watchmygf;watchmygf.watchmygf_search()
-elif mode == 1023: from lib.sites import watchmygf;watchmygf.watchmygf_cats(url)
 
 
 
-
+#802
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
